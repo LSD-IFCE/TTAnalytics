@@ -1,0 +1,96 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+    {% if action == 'approve' %}Aprovar{% else %}Rejeitar{% endif %} Usuário
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header {% if action == 'approve' %}bg-success{% else %}bg-danger{% endif %} text-white">
+                    <h4 class="mb-0">
+                        <i class="fas {% if action == 'approve' %}fa-check{% else %}fa-times{% endif %} me-2"></i>
+                        {% if action == 'approve' %}Aprovar{% else %}Rejeitar{% endif %} Usuário
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <strong>Nome:</strong>
+                            <p>{{ target_profile.full_name }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Usuário:</strong>
+                            <p>{{ target_profile.user.username }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>E-mail:</strong>
+                            <p>{{ target_profile.user.email }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Tipo:</strong>
+                            <p>
+                                <span class="badge 
+                                    {% if target_profile.user_type == 'ADMIN' %}bg-danger
+                                    {% elif target_profile.user_type == 'COACH' %}bg-success
+                                    {% elif target_profile.user_type == 'ANALYST' %}bg-warning text-dark
+                                    {% else %}bg-primary{% endif %} fs-6">
+                                    {{ target_profile.get_user_type_display }}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Clube:</strong>
+                            <p>{{ target_profile.club.name|default:"Não informado" }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Data de Nascimento:</strong>
+                            <p>{{ target_profile.birth_date|date:"d/m/Y"|default:"Não informada" }}</p>
+                        </div>
+                        <div class="col-12">
+                            <strong>Data de Registro:</strong>
+                            <p>{{ target_profile.created_at|date:"d/m/Y H:i:s" }}</p>
+                        </div>
+                    </div>
+
+                    {% if action == 'reject' %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="reason" class="form-label">
+                                <strong>Motivo da Rejeição *</strong>
+                            </label>
+                            <textarea name="reason" id="reason" class="form-control" rows="3" 
+                                placeholder="Descreva o motivo da rejeição..." required></textarea>
+                            <small class="text-muted">O usuário receberá este motivo por e-mail.</small>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-times me-1"></i> Confirmar Rejeição
+                            </button>
+                            <a href="{% url 'pending_approvals' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-1"></i> Voltar
+                            </a>
+                        </div>
+                    </form>
+                    {% else %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-check me-1"></i> Confirmar Aprovação
+                            </button>
+                            <a href="{% url 'pending_approvals' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-1"></i> Voltar
+                            </a>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

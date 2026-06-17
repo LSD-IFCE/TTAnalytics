@@ -1,0 +1,23 @@
+model:
+  path: outputs/weights/yolo_ball_openttgames.pt
+  conf_threshold: 0.25
+  iou_threshold: 0.45
+
+analysis:
+  ball_class_name: sports ball
+  rally_gap_seconds: 0.7
+  min_rally_seconds: 0.35
+  trail_size: 20
+  table_length_m: 2.74
+  table_width_m: 1.525
+  rebound_min_gap_seconds: 0.12
+  rebound_min_speed_px: 2.0
+  rebound_min_vertical_turn_px: 3.0
+  rebound_max_cosine: 0.55
+  rebound_table_margin_px: 10.0
+
+render:
+  draw_trail: true
+  draw_labels: true
+  line_thickness: 2
+  font_scale: 0.6

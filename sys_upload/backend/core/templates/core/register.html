@@ -1,0 +1,298 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Criar Conta - TableTennisAnalytics{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4">
+                        <i class="fas fa-user-plus text-primary me-2"></i>
+                        Criar Conta
+                    </h2>
+                    
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                <strong>Erro!</strong> Por favor, corrija os campos abaixo.
+                            </div>
+                        {% endif %}
+                        
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Usuário *</label>
+                            <input type="text" name="username" id="username" class="form-control" placeholder="Escolha um nome de usuário" value="{{ form_data.username|default:'' }}" required>
+                            <small class="text-muted">Mínimo 3 caracteres</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="full_name" class="form-label">Nome Completo *</label>
+                            <input type="text" name="full_name" id="full_name" class="form-control" placeholder="Digite seu nome completo" value="{{ form_data.full_name|default:'' }}" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-mail *</label>
+                            <input type="email" name="email" id="email" class="form-control" placeholder="Digite seu e-mail" value="{{ form_data.email|default:'' }}" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="birth_date" class="form-label">Data de Nascimento</label>
+                            <input type="date" name="birth_date" id="birth_date" class="form-control" value="{{ form_data.birth_date|default:'' }}">
+                            <small class="text-muted">Opcional</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="photo" class="form-label">Foto</label>
+                            <div class="d-flex align-items-center gap-3 mb-2">
+                                <img id="photo-preview" src="https://ui-avatars.com/api/?name=Avatar&background=E9ECEF&color=6C757D&size=72" alt="Pré-visualização da foto" class="rounded-circle border object-fit-cover" style="width: 72px; height: 72px;">
+                                <div class="flex-grow-1">
+                                    <input type="file" name="photo" id="photo" class="form-control" accept="image/*">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="dominant_hand" class="form-label">Mão Dominante</label>
+                                <select name="dominant_hand" id="dominant_hand" class="form-select">
+                                    <option value="">Selecione...</option>
+                                    {% for option in handedness_options %}
+                                        <option value="{{ option.id }}" {% if form_data.dominant_hand == option.id|stringformat:'s' %}selected{% endif %}>{{ option.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="player_type" class="form-label">Tipo</label>
+                                <select name="player_type" id="player_type" class="form-select">
+                                    <option value="">Selecione...</option>
+                                    {% for option in player_type_options %}
+                                        <option value="{{ option.id }}" {% if form_data.player_type == option.id|stringformat:'s' %}selected{% endif %}>{{ option.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="blade" class="form-label">Madeira</label>
+                                <select name="blade" id="blade" class="form-select">
+                                    <option value="">Selecione...</option>
+                                    {% for option in blade_options %}
+                                        <option value="{{ option.id }}" {% if form_data.blade == option.id|stringformat:'s' %}selected{% endif %}>{{ option }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="grip" class="form-label">Empunhadura</label>
+                                <select name="grip" id="grip" class="form-select">
+                                    <option value="">Selecione...</option>
+                                    {% for option in grip_options %}
+                                        <option value="{{ option.id }}" {% if form_data.grip == option.id|stringformat:'s' %}selected{% endif %}>{{ option.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="rubber_1" class="form-label">Borracha 1</label>
+                                <select name="rubber_1" id="rubber_1" class="form-select">
+                                    <option value="">Selecione...</option>
+                                    {% for option in rubber_options %}
+                                        <option value="{{ option.id }}" {% if form_data.rubber_1 == option.id|stringformat:'s' %}selected{% endif %}>{{ option }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="rubber_2" class="form-label">Borracha 2</label>
+                                <select name="rubber_2" id="rubber_2" class="form-select">
+                                    <option value="">Selecione...</option>
+                                    {% for option in rubber_options %}
+                                        <option value="{{ option.id }}" {% if form_data.rubber_2 == option.id|stringformat:'s' %}selected{% endif %}>{{ option }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="user_type" class="form-label">Tipo de Usuário *</label>
+                            <select name="user_type" id="user_type" class="form-select" required>
+                                <option value="ATHLETE" {% if form_data.user_type == 'ATHLETE' %}selected{% endif %}>Atleta</option>
+                                <option value="COACH" {% if form_data.user_type == 'COACH' %}selected{% endif %}>Técnico</option>
+                                <option value="ANALYST" {% if form_data.user_type == 'ANALYST' %}selected{% endif %}>Analista</option>
+                                <option value="ADMIN" {% if form_data.user_type == 'ADMIN' %}selected{% endif %}>Administrador</option>
+                            </select>
+                            <small class="text-muted">Selecione o perfil que melhor descreve sua função</small>
+                        </div>
+
+                        <div class="mb-3 d-none" id="coach-club-choice">
+                            <label class="form-label">Clube do Técnico *</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="coach_club_mode" id="coach_club_existing" value="existing" {% if form_data.coach_club_mode != 'new' %}checked{% endif %}>
+                                <label class="form-check-label" for="coach_club_existing">
+                                    Selecionar clube existente
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="coach_club_mode" id="coach_club_new" value="new" {% if form_data.coach_club_mode == 'new' %}checked{% endif %}>
+                                <label class="form-check-label" for="coach_club_new">
+                                    Cadastrar novo clube
+                                </label>
+                            </div>
+                            <input type="hidden" name="create_club" id="create_club" value="{{ form_data.create_club|default:'0' }}">
+                        </div>
+                        
+                        <!-- Campo de Clube existente -->
+                        <div class="mb-3" id="club-field">
+                            <label for="club_id" class="form-label">Clube *</label>
+                            <select name="club_id" id="club_id" class="form-select">
+                                <option value="">Selecione um clube...</option>
+                                {% for club in clubs %}
+                                    <option value="{{ club.id }}" {% if form_data.club_id == club.id|stringformat:'s' %}selected{% endif %}>{{ club.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <small class="text-muted">
+                                Técnicos e Atletas devem estar associados a um clube.
+                                <br>Para técnico, você também pode cadastrar um novo clube.
+                            </small>
+                        </div>
+
+                        <!-- Cadastro de novo clube (somente técnico) -->
+                        <div id="new-club-fields" class="d-none">
+                            <div class="mb-3">
+                                <label for="club_full_name" class="form-label">Nome Completo do Clube *</label>
+                                <input type="text" name="club_full_name" id="club_full_name" class="form-control" placeholder="Digite o nome completo do clube" value="{{ form_data.club_full_name|default:'' }}">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="club_acronym" class="form-label">Sigla</label>
+                                    <input type="text" name="club_acronym" id="club_acronym" class="form-control" placeholder="Ex: TTM" value="{{ form_data.club_acronym|default:'' }}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="club_state" class="form-label">UF</label>
+                                    <input type="text" name="club_state" id="club_state" class="form-control" maxlength="2" placeholder="CE" value="{{ form_data.club_state|default:'' }}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="club_city" class="form-label">Cidade</label>
+                                    <input type="text" name="club_city" id="club_city" class="form-control" placeholder="Cidade" value="{{ form_data.club_city|default:'' }}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="club_phone" class="form-label">Telefone</label>
+                                    <input type="text" name="club_phone" id="club_phone" class="form-control" placeholder="(00) 00000-0000" value="{{ form_data.club_phone|default:'' }}">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="club_email" class="form-label">E-mail do Clube</label>
+                                <input type="email" name="club_email" id="club_email" class="form-control" placeholder="contato@clube.com" value="{{ form_data.club_email|default:'' }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="club_logo" class="form-label">Logo do Clube</label>
+                                <input type="file" name="club_logo" id="club_logo" class="form-control" accept="image/*">
+                                <small class="text-muted">Opcional. Por segurança do navegador, o arquivo precisa ser selecionado novamente se houver erro no formulário.</small>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password1" class="form-label">Senha *</label>
+                            <input type="password" name="password1" id="password1" class="form-control" placeholder="Digite sua senha" required>
+                            <small class="text-muted">Mínimo 8 caracteres</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password2" class="form-label">Confirmar Senha *</label>
+                            <input type="password" name="password2" id="password2" class="form-control" placeholder="Confirme sua senha" required>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-user-plus me-2"></i> Criar Conta
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <hr>
+                    
+                    <p class="text-center mb-0">
+                        Já tem uma conta? 
+                        <a href="{% url 'login' %}" class="text-primary">Fazer Login</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const registerPhotoInput = document.getElementById('photo');
+    const registerPhotoPreview = document.getElementById('photo-preview');
+
+    if (registerPhotoInput && registerPhotoPreview) {
+        registerPhotoInput.addEventListener('change', function (event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) {
+                registerPhotoPreview.src = "https://ui-avatars.com/api/?name=Avatar&background=E9ECEF&color=6C757D&size=72";
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (loadEvent) {
+                registerPhotoPreview.src = loadEvent.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function updateRegisterClubUI() {
+        const userType = document.getElementById('user_type').value;
+        const coachChoice = document.getElementById('coach-club-choice');
+        const clubField = document.getElementById('club-field');
+        const clubSelect = document.getElementById('club_id');
+        const newClubFields = document.getElementById('new-club-fields');
+        const createClubInput = document.getElementById('create_club');
+        const useNewClub = document.getElementById('coach_club_new').checked;
+        const clubFullName = document.getElementById('club_full_name');
+
+        coachChoice.classList.toggle('d-none', userType !== 'COACH');
+
+        if (userType === 'COACH') {
+            if (useNewClub) {
+                clubField.classList.add('d-none');
+                newClubFields.classList.remove('d-none');
+                clubSelect.required = false;
+                clubFullName.required = true;
+                createClubInput.value = '1';
+            } else {
+                clubField.classList.remove('d-none');
+                newClubFields.classList.add('d-none');
+                clubSelect.required = true;
+                clubFullName.required = false;
+                createClubInput.value = '0';
+            }
+            return;
+        }
+
+        newClubFields.classList.add('d-none');
+        clubFullName.required = false;
+        createClubInput.value = '0';
+
+        if (userType === 'ATHLETE') {
+            clubField.classList.remove('d-none');
+            clubSelect.required = true;
+        } else {
+            clubField.classList.add('d-none');
+            clubSelect.required = false;
+        }
+    }
+
+    document.getElementById('user_type').addEventListener('change', updateRegisterClubUI);
+    document.getElementById('coach_club_existing').addEventListener('change', updateRegisterClubUI);
+    document.getElementById('coach_club_new').addEventListener('change', updateRegisterClubUI);
+    document.addEventListener('DOMContentLoaded', updateRegisterClubUI);
+</script>
+{% endblock %}

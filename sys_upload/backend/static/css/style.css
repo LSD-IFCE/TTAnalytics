@@ -1,0 +1,192 @@
+/* Estilos gerais */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Cards */
+.card {
+    border: none;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Animações */
+.btn {
+    transition: all 0.3s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+}
+
+/* Ícones na navbar */
+.navbar .btn {
+    border-radius: 50px;
+}
+
+/* Forms */
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Hero section */
+.display-4 {
+    font-weight: 700;
+}
+
+/* Cards de estatísticas */
+.card .card-title {
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 2.5rem;
+    }
+}
+
+/* Estilos gerais */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Aviso de desenvolvimento */
+.bg-warning {
+    background-color: #ffc107 !important;
+    animation: pulse-warning 2s ease-in-out infinite;
+}
+
+@keyframes pulse-warning {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Cards */
+.card {
+    border: none;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Animações */
+.btn {
+    transition: all 0.3s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+}
+
+/* Ícones na navbar */
+.navbar .btn {
+    border-radius: 50px;
+}
+
+/* Forms */
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Hero section */
+.display-4 {
+    font-weight: 700;
+}
+
+/* Cards de estatísticas */
+.card .card-title {
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 2.5rem;
+    }
+}
+
+/* static/css/style.css */
+
+.avatar-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.avatar-wrapper img {
+    transition: transform 0.2s;
+}
+
+.avatar-wrapper:hover img {
+    transform: scale(1.05);
+}
+
+/* Badges no avatar */
+.avatar-wrapper .position-absolute {
+    z-index: 2;
+}
+
+/* Dropdown com avatar */
+.nav-item.dropdown .dropdown-toggle::after {
+    margin-left: 0.5rem;
+}
+
+.nav-item.dropdown .dropdown-menu {
+    min-width: 220px;
+}
+
+/* Tamanhos personalizados */
+.avatar-sm {
+    width: 32px;
+    height: 32px;
+}
+
+.avatar-md {
+    width: 48px;
+    height: 48px;
+}
+
+.avatar-lg {
+    width: 64px;
+    height: 64px;
+}
+
+.avatar-xl {
+    width: 96px;
+    height: 96px;
+}

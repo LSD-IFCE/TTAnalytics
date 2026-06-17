@@ -1,0 +1,181 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Editar Perfil - TableTennisAnalytics{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-user-edit me-2"></i>
+                        Editar Perfil
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Avatar -->
+                        <div class="text-center mb-4">
+                            <div style="width: 120px; height: 120px; margin: 0 auto;">
+                                {% include 'core/components/avatar.html' with profile=profile size=120 badge_size=40 show_status=True %}
+                            </div>
+                            <div class="mt-2">
+                                <label for="photo" class="btn btn-outline-secondary btn-sm">
+                                    <i class="fas fa-camera me-1"></i> Alterar Foto
+                                </label>
+                                <input type="file" name="photo" id="photo" class="d-none" accept="image/*">
+                            </div>
+                            <small class="text-muted">Formatos: JPG, PNG, GIF. Máx: 5MB</small>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label for="full_name" class="form-label">Nome Completo *</label>
+                                <input type="text" name="full_name" id="full_name" class="form-control" 
+                                       value="{{ profile.full_name }}" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="username" class="form-label">Usuário</label>
+                                <input type="text" class="form-control" value="{{ profile.user.username }}" disabled>
+                                <small class="text-muted">O nome de usuário não pode ser alterado</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">E-mail</label>
+                                <input type="email" class="form-control" value="{{ profile.user.email }}" disabled>
+                                <small class="text-muted">O e-mail não pode ser alterado</small>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="birth_date" class="form-label">Data de Nascimento</label>
+                                <input type="date" name="birth_date" id="birth_date" class="form-control" 
+                                       value="{{ profile.birth_date|date:'Y-m-d' }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">Telefone</label>
+                                <input type="tel" name="phone" id="phone" class="form-control" 
+                                       value="{{ profile.phone|default:'' }}">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="dominant_hand" class="form-label">Mão Dominante</label>
+                                <select name="dominant_hand" id="dominant_hand" class="form-select">
+                                    <option value="">Selecione...</option>
+                                    {% for option in handedness_options %}
+                                        <option value="{{ option.id }}" {% if profile.dominant_hand_id == option.id %}selected{% endif %}>{{ option.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="player_type" class="form-label">Tipo</label>
+                                <select name="player_type" id="player_type" class="form-select">
+                                    <option value="">Selecione...</option>
+                                    {% for option in player_type_options %}
+                                        <option value="{{ option.id }}" {% if profile.player_type_id == option.id %}selected{% endif %}>{{ option.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="blade" class="form-label">Madeira</label>
+                                <select name="blade" id="blade" class="form-select">
+                                    <option value="">Selecione...</option>
+                                    {% for option in blade_options %}
+                                        <option value="{{ option.id }}" {% if profile.blade_id == option.id %}selected{% endif %}>{{ option }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="grip" class="form-label">Empunhadura</label>
+                                <select name="grip" id="grip" class="form-select">
+                                    <option value="">Selecione...</option>
+                                    {% for option in grip_options %}
+                                        <option value="{{ option.id }}" {% if profile.grip_id == option.id %}selected{% endif %}>{{ option.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="rubber_1" class="form-label">Borracha 1</label>
+                                <select name="rubber_1" id="rubber_1" class="form-select">
+                                    <option value="">Selecione...</option>
+                                    {% for option in rubber_options %}
+                                        <option value="{{ option.id }}" {% if profile.rubber_1_id == option.id %}selected{% endif %}>{{ option }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="rubber_2" class="form-label">Borracha 2</label>
+                                <select name="rubber_2" id="rubber_2" class="form-select">
+                                    <option value="">Selecione...</option>
+                                    {% for option in rubber_options %}
+                                        <option value="{{ option.id }}" {% if profile.rubber_2_id == option.id %}selected{% endif %}>{{ option }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label class="form-label">Tipo de Usuário</label>
+                                <input type="text" class="form-control" value="{{ profile.get_user_type_display }}" disabled>
+                                <small class="text-muted">O tipo de usuário não pode ser alterado. Entre em contato com o administrador se precisar mudar.</small>
+                            </div>
+                        </div>
+                        
+                        {% if profile.club %}
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label class="form-label">Clube</label>
+                                <input type="text" class="form-control" value="{{ profile.club.name }}" disabled>
+                                <small class="text-muted">Para mudar de clube, entre em contato com o administrador.</small>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'dashboard' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-1"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i> Salvar Alterações
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Preview da foto
+    document.getElementById('photo').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const avatarImg = document.querySelector('.avatar-wrapper img');
+                if (avatarImg) {
+                    avatarImg.src = e.target.result;
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+{% endblock %}

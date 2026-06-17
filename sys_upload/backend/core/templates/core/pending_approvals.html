@@ -1,0 +1,92 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Aprovações Pendentes{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>
+            <i class="fas fa-user-check me-2 text-primary"></i>
+            Aprovações Pendentes
+        </h2>
+        <span class="badge bg-warning text-dark fs-6">
+            {{ total_pending }} pendente(s)
+        </span>
+    </div>
+    
+    {% if pending_profiles %}
+        <div class="row">
+            {% for profile in pending_profiles %}
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h5 class="mb-1">
+                                        {{ profile.full_name }}
+                                        {% if profile.user_type == 'COACH' %}
+                                            <span class="badge bg-success ms-1">Técnico</span>
+                                        {% elif profile.user_type == 'ATHLETE' %}
+                                            <span class="badge bg-primary ms-1">Atleta</span>
+                                        {% endif %}
+                                    </h5>
+                                    <p class="text-muted small mb-1">
+                                        <i class="fas fa-user me-1"></i>
+                                        {{ profile.user.username }}
+                                    </p>
+                                    <p class="text-muted small mb-1">
+                                        <i class="fas fa-envelope me-1"></i>
+                                        {{ profile.user.email }}
+                                    </p>
+                                    <p class="mb-1">
+                                        <span class="badge 
+                                            {% if profile.user_type == 'ADMIN' %}bg-danger
+                                            {% elif profile.user_type == 'COACH' %}bg-success
+                                            {% elif profile.user_type == 'ANALYST' %}bg-warning text-dark
+                                            {% else %}bg-primary{% endif %}">
+                                            {{ profile.get_user_type_display }}
+                                        </span>
+                                    </p>
+                                    <!-- ⭐ Informação do Clube -->
+                                    <p class="mb-1">
+                                        <i class="fas fa-building me-1"></i>
+                                        <strong>Clube:</strong>
+                                        {% if profile.club %}
+                                            <span class="text-success">{{ profile.club.name }}</span>
+                                            {% if profile.user_type == 'COACH' %}
+                                                <span class="badge bg-info ms-1">⏳ Pendente</span>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="text-muted">Não informado</span>
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-muted small mb-0">
+                                        <i class="fas fa-clock me-1"></i>
+                                        {{ profile.created_at|date:"d/m/Y H:i" }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'approve_user' profile.id %}" class="btn btn-success btn-sm flex-fill">
+                                    <i class="fas fa-check me-1"></i> Aprovar
+                                </a>
+                                <a href="{% url 'reject_user' profile.id %}" class="btn btn-danger btn-sm flex-fill">
+                                    <i class="fas fa-times me-1"></i> Rejeitar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+            <h4 class="text-muted">Tudo certo!</h4>
+            <p class="text-muted">Não há cadastros pendentes de aprovação.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

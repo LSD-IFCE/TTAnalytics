@@ -1,0 +1,45 @@
+services:
+  db:
+    image: postgres:15
+    container_name: tenis_mesa_db_prod
+    environment:
+      POSTGRES_DB: ${DB_NAME:-tenis_mesa}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    container_name: tenis_mesa_backend_prod
+    volumes:
+      - media_volume_prod:/app/media
+      - static_volume_prod:/app/staticfiles
+    environment:
+      - DEBUG=False
+      - DB_NAME=${DB_NAME:-tenis_mesa}
+      - DB_USER=${DB_USER:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD:-postgres}
+      - DB_HOST=db
+      - DB_PORT=5432
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - backend/.env
+    restart: unless-stopped
+    ports:
+      - "8001:80"
+
+volumes:
+  postgres_data_prod:
+  media_volume_prod:
+  static_volume_prod:

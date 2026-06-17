@@ -12,3 +12,7 @@ staticfiles/
 
 # IDE
 .vscode/
+
+# Videos
+*.mp4
+

@@ -1,0 +1,102 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Status do Cadastro{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Status do Cadastro
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="text-center py-4">
+                        <div class="display-1 mb-3">
+                            {% if is_pending %}⏳
+                            {% elif is_approved %}✅
+                            {% elif is_rejected %}❌
+                            {% endif %}
+                        </div>
+                        <h3 class="mb-2">
+                            {% if is_pending %}Aguardando Aprovação
+                            {% elif is_approved %}Aprovado!
+                            {% elif is_rejected %}Rejeitado
+                            {% endif %}
+                        </h3>
+                        <p class="text-muted mb-4">
+                            {% if is_pending %}
+                                Seu cadastro está aguardando aprovação de um administrador ou técnico.
+                                Você receberá um e-mail assim que for aprovado.
+                            {% elif is_approved %}
+                                Parabéns! Seu cadastro foi aprovado.
+                                Você já pode acessar o sistema.
+                            {% elif is_rejected %}
+                                Seu cadastro não foi aprovado.
+                            {% endif %}
+                        </p>
+                        
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 text-start">
+                                        <strong>Nome:</strong>
+                                        <p>{{ profile.full_name }}</p>
+                                    </div>
+                                    <div class="col-md-6 text-start">
+                                        <strong>Tipo:</strong>
+                                        <p>{{ profile.get_user_type_display }}</p>
+                                    </div>
+                                    <div class="col-md-6 text-start">
+                                        <strong>Clube:</strong>
+                                        <p>{{ profile.club.name|default:"Não informado" }}</p>
+                                    </div>
+                                    <div class="col-md-6 text-start">
+                                        <strong>Data do Cadastro:</strong>
+                                        <p>{{ profile.created_at|date:"d/m/Y H:i" }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if is_approved and review_info %}
+                        <div class="mt-3">
+                            <div class="alert alert-success">
+                                <strong>Aprovado por:</strong> {{ review_info.reviewer_name }}
+                                <br>
+                                <strong>em:</strong> {{ review_info.reviewed_at|date:"d/m/Y H:i" }}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if is_rejected %}
+                            {% if review_info %}
+                            <div class="mt-3">
+                                <div class="alert alert-danger">
+                                    <strong>Rejeitado por:</strong> {{ review_info.reviewer_name }}
+                                    <br>
+                                    <strong>em:</strong> {{ review_info.reviewed_at|date:"d/m/Y H:i" }}
+                                    {% if review_info.rejection_reason %}
+                                    <br>
+                                    <strong>Motivo:</strong> {{ review_info.rejection_reason }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+
+                    <div class="d-grid">
+                        <a href="{% url 'home' %}" class="btn btn-outline-primary">
+                            <i class="fas fa-arrow-left me-1"></i> Voltar para Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

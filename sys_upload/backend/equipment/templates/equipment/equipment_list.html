@@ -1,0 +1,153 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Equipamentos - TableTennisAnalytics{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>
+            <i class="fas fa-table-tennis me-2 text-primary"></i>
+            Equipamentos
+        </h2>
+        <div>
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary me-2">
+                <i class="fas fa-arrow-left me-1"></i> Voltar
+            </a>
+        {% if can_edit %}
+            <a href="{% url 'brand_add' %}" class="btn btn-outline-secondary">
+                <i class="fas fa-tags me-1"></i> Nova Marca
+            </a>
+            <a href="{% url 'equipment_add' %}?type=rubber" class="btn btn-primary">
+                <i class="fas fa-plus me-1"></i> Nova Borracha
+            </a>
+            <a href="{% url 'equipment_add' %}?type=blade" class="btn btn-success ms-2">
+                <i class="fas fa-plus me-1"></i> Nova Madeira
+            </a>
+        {% endif %}
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs mb-4" id="equipmentTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="rubbers-tab" data-bs-toggle="tab" data-bs-target="#rubbers" type="button" role="tab">
+                <i class="fas fa-circle me-1"></i> Borrachas
+                <span class="badge bg-secondary ms-1">{{ rubbers|length }}</span>
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="blades-tab" data-bs-toggle="tab" data-bs-target="#blades" type="button" role="tab">
+                <i class="fas fa-ping-pong me-1"></i> Madeiras
+                <span class="badge bg-secondary ms-1">{{ blades|length }}</span>
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="brands-tab" data-bs-toggle="tab" data-bs-target="#brands" type="button" role="tab">
+                <i class="fas fa-tags me-1"></i> Marcas
+                <span class="badge bg-secondary ms-1">{{ brands|length }}</span>
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <!-- Borrachas -->
+        <div class="tab-pane fade show active" id="rubbers" role="tabpanel">
+            <div class="row">
+                {% if rubbers %}
+                    {% for rubber in rubbers %}
+                        <div class="col-md-4 col-lg-3 mb-3">
+                            <a href="{% if can_edit %}{% url 'equipment_edit' 'rubber' rubber.id %}{% else %}#{% endif %}" class="text-decoration-none text-reset d-block h-100">
+                            <div class="card shadow-sm h-100 {% if can_edit %}cursor-pointer{% endif %}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ rubber.name }}</h5>
+                                    <p class="card-text text-muted small">
+                                        <strong>Marca:</strong> {{ rubber.brand.name|default:"-" }}<br>
+                                        <strong>Categoria:</strong> {{ rubber.get_category_display }}<br>
+                                        <strong>Tipo:</strong> {{ rubber.get_rubber_type_display }}<br>
+                                        <strong>Espessura:</strong> {{ rubber.thickness|default:"-" }}
+                                    </p>
+                                    <span class="badge {% if rubber.is_active %}bg-success{% else %}bg-danger{% endif %}">
+                                        {% if rubber.is_active %}Ativo{% else %}Inativo{% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-circle fa-3x text-muted mb-3"></i>
+                        <h4 class="text-muted">Nenhuma borracha cadastrada</h4>
+                        <p class="text-muted">Clique em "Nova Borracha" para começar.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Madeiras -->
+        <div class="tab-pane fade" id="blades" role="tabpanel">
+            <div class="row">
+                {% if blades %}
+                    {% for blade in blades %}
+                        <div class="col-md-4 col-lg-3 mb-3">
+                            <a href="{% if can_edit %}{% url 'equipment_edit' 'blade' blade.id %}{% else %}#{% endif %}" class="text-decoration-none text-reset d-block h-100">
+                            <div class="card shadow-sm h-100 {% if can_edit %}cursor-pointer{% endif %}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ blade.name }}</h5>
+                                    <p class="card-text text-muted small">
+                                        <strong>Marca:</strong> {{ blade.brand.name|default:"-" }}<br>
+                                        <strong>Tipo:</strong> {{ blade.get_blade_type_display }}<br>
+                                        <strong>Velocidade:</strong> {{ blade.get_speed_class_display }}<br>
+                                        <strong>Peso:</strong> {{ blade.weight|default:"-" }}
+                                    </p>
+                                    <span class="badge {% if blade.is_active %}bg-success{% else %}bg-danger{% endif %}">
+                                        {% if blade.is_active %}Ativo{% else %}Inativo{% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-ping-pong fa-3x text-muted mb-3"></i>
+                        <h4 class="text-muted">Nenhuma madeira cadastrada</h4>
+                        <p class="text-muted">Clique em "Nova Madeira" para começar.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="brands" role="tabpanel">
+            <div class="row">
+                {% if brands %}
+                    {% for brand in brands %}
+                        <div class="col-md-4 col-lg-3 mb-3">
+                            <a href="{% if can_edit %}{% url 'brand_edit' brand.id %}{% else %}#{% endif %}" class="text-decoration-none text-reset d-block h-100">
+                            <div class="card shadow-sm h-100 {% if can_edit %}cursor-pointer{% endif %}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ brand.name }}</h5>
+                                    <p class="card-text text-muted small mb-2">
+                                        <strong>Borrachas:</strong> {{ brand.rubbers.count }}<br>
+                                        <strong>Madeiras:</strong> {{ brand.blades.count }}
+                                    </p>
+                                    <span class="badge {% if brand.is_active %}bg-success{% else %}bg-danger{% endif %}">
+                                        {% if brand.is_active %}Ativa{% else %}Inativa{% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-tags fa-3x text-muted mb-3"></i>
+                        <h4 class="text-muted">Nenhuma marca cadastrada</h4>
+                        <p class="text-muted">Clique em "Nova Marca" para começar.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{
+  "frames_processed": 450,
+  "video_frames_reported": 450,
+  "fps": 30.0,
+  "ball_class_name": "sports ball",
+  "ball_class_id": 0,
+  "ball_class_found_in_model": true,
+  "ball_detection_rate": 0.6155555555555555,
+  "estimated_rallies": 5,
+  "estimated_rally_time_seconds": 10.333333333333332,
+  "estimated_rebounds": 0,
+  "rebound_timestamps_seconds": [],
+  "touch_events": [],
+  "touches_by_side": {
+    "lado_a": [],
+    "lado_b": [],
+    "indefinido": []
+  },
+  "touch_points_count": 0,
+  "touch_heatmap_path": "outputs/heatmap_teste.png",
+  "rebound_criteria": {
+    "min_gap_seconds": 0.12,
+    "min_speed_px": 2.0,
+    "min_vertical_turn_px": 3.0,
+    "max_cosine_for_turn": 0.55,
+    "table_margin_px": 10.0,
+    "logic": "pico_ou_inversao_vertical_ou_quebra_angular_com_velocidade_minima"
+  },
+  "avg_ball_speed_px_s": 325.44025140311146,
+  "max_ball_speed_px_s": 16451.656451555267,
+  "avg_ball_speed_km_h": 7.133493594825268,
+  "max_ball_speed_km_h": 9.505750894546509,
+  "table_dimensions_m": {
+    "length": 2.74,
+    "width": 1.525
+  }
+}

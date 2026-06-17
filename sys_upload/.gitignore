@@ -1,0 +1,52 @@
+
+## 📝 .gitignore
+
+Certifique-se de ter um `.gitignore` na raiz:
+
+```gitignore
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.sqlite3
+*.db
+
+# Ambiente virtual
+venv/
+.venv/
+env/
+ENV/
+
+# Django
+*.log
+*.pot
+*.pyc
+local_settings.py
+db.sqlite3
+media/
+staticfiles/
+
+# Docker
+*.pid
+*.seed
+*.pid.lock
+
+# Backup
+backups/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db

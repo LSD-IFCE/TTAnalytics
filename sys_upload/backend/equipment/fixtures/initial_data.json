@@ -1,0 +1,80 @@
+[
+  {
+    "model": "equipment.grip",
+    "pk": 1,
+    "fields": {
+      "name": "Clássico",
+      "description": "Empunhadura clássica, também conhecida como Shakehand",
+      "is_active": true
+    }
+  },
+  {
+    "model": "equipment.grip",
+    "pk": 2,
+    "fields": {
+      "name": "Caneta",
+      "description": "Empunhadura estilo caneta, também conhecida como Penhold",
+      "is_active": true
+    }
+  },
+  {
+    "model": "equipment.grip",
+    "pk": 3,
+    "fields": {
+      "name": "Classineta",
+      "description": "Empunhadura mista, variação da caneta",
+      "is_active": true
+    }
+  },
+  {
+    "model": "equipment.handedness",
+    "pk": 1,
+    "fields": {
+      "name": "Destro",
+      "is_active": true
+    }
+  },
+  {
+    "model": "equipment.handedness",
+    "pk": 2,
+    "fields": {
+      "name": "Canhoto",
+      "is_active": true
+    }
+  },
+  {
+    "model": "equipment.handedness",
+    "pk": 3,
+    "fields": {
+      "name": "Ambidestro",
+      "is_active": true
+    }
+  },
+  {
+    "model": "equipment.playertype",
+    "pk": 1,
+    "fields": {
+      "name": "Ofensivo",
+      "description": "Jogador com estilo de jogo ofensivo, prioriza ataques",
+      "is_active": true
+    }
+  },
+  {
+    "model": "equipment.playertype",
+    "pk": 2,
+    "fields": {
+      "name": "Defensivo",
+      "description": "Jogador com estilo de jogo defensivo, prioriza defesa",
+      "is_active": true
+    }
+  },
+  {
+    "model": "equipment.playertype",
+    "pk": 3,
+    "fields": {
+      "name": "All-Rounded",
+      "description": "Jogador com estilo equilibrado, ofensivo e defensivo",
+      "is_active": true
+    }
+  }
+]

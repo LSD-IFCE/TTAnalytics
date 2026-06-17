@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TableTennisAnalytics{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Aviso de desenvolvimento -->
+    <div class="bg-warning text-dark text-center py-1" style="font-size: 0.9rem;">
+        <i class="fas fa-flask me-1"></i>
+        <strong>EM FASE DE DESENVOLVIMENTO</strong>
+        <i class="fas fa-flask ms-1"></i>
+        <span class="d-none d-sm-inline">- Este sistema está em testes. Algumas funcionalidades podem não estar disponíveis.</span>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <i class="fas fa-robot me-2"></i>
+                TableTennisAnalytics
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                        <!-- Dropdown do Usuário -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" 
+                               href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                <!-- Avatar no menu -->
+                                <div class="avatar-sm" style="width: 40px; height: 40px;">
+                                    {% include 'core/components/avatar.html' with profile=user.profile size=40 badge_size=16 %}
+                                </div>
+                                <span class="ms-2">{{ user.profile.full_name|default:user.username }}</span>
+                            </a>
+                            <!-- No dropdown do usuário -->
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'dashboard' %}">
+                                        <i class="fas fa-home me-2"></i> Dashboard
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'my_approval_status' %}">
+                                        <i class="fas fa-id-card me-2"></i> Meu Cadastro
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'edit_profile' %}">
+                                        <i class="fas fa-user-edit me-2"></i> Editar Perfil
+                                    </a>
+                                </li>
+                                {% if user.profile.is_coach and not user.profile.club %}
+                                <li>
+                                    <span class="dropdown-item-text text-muted">
+                                        <i class="fas fa-building me-2"></i> Solicitação de clube indisponível
+                                    </span>
+                                </li>
+                                {% endif %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="{% url 'logout' %}">
+                                        <i class="fas fa-sign-out-alt me-2"></i> Sair
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">
+                                <i class="fas fa-sign-in-alt me-1"></i> Entrar
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-primary text-white px-3" href="{% url 'register' %}">
+                                <i class="fas fa-user-plus me-1"></i> Criar Conta
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    <div class="container mt-3">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-light text-center py-4 mt-5 border-top">
+        <div class="container">
+            <div class="d-flex justify-content-center align-items-center gap-4 mb-3">
+                <img src="{% static 'images/ifce-logo.png' %}" alt="IFCE" height="45">
+                <img src="{% static 'images/lsd-logo.png' %}" alt="LSD" height="40">
+            </div>
+            <p class="mb-0 text-muted">
+                <small>
+                    Desenvolvido pelo Laboratório de Sistemas e Dados - IFCE Campus Maranguape
+                </small>
+            </p>
+            <p class="mb-0 text-muted mt-1">
+                <small>
+                    <i class="fas fa-microchip me-1"></i>
+                    Análise de vídeos com Inteligência Artificial
+                </small>
+            </p>
+            <p class="mb-0 text-warning mt-2">
+                <small>
+                    <i class="fas fa-flask me-1"></i>
+                    <strong>EM FASE DE DESENVOLVIMENTO</strong>
+                    <i class="fas fa-flask ms-1"></i>
+                </small>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

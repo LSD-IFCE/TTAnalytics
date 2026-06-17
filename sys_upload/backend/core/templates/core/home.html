@@ -1,0 +1,120 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Home - TableTennisAnalytics{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Hero Section -->
+    <div class="row align-items-center py-5">
+        <div class="col-lg-7">
+            <h1 class="display-4 fw-bold mb-4">
+                <i class="fas fa-robot text-primary me-2"></i>
+                TableTennisAnalytics
+            </h1>
+            <p class="lead mb-3">
+                Análise de partidas de tênis de mesa com Inteligência Artificial
+            </p>
+            <p class="mb-4 text-muted">
+                Gere estatísticas detalhadas de jogos e atletas a partir de vídeos.
+                Identifique padrões de jogo, métricas de desempenho e muito mais.
+            </p>
+            <div class="d-grid gap-3 d-sm-flex">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}" class="btn btn-primary btn-lg px-4">
+                        <i class="fas fa-home me-2"></i> Acessar Dashboard
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-4">
+                        <i class="fas fa-sign-in-alt me-2"></i> Entrar
+                    </a>
+                    <a href="{% url 'register' %}" class="btn btn-outline-primary btn-lg px-4">
+                        <i class="fas fa-user-plus me-2"></i> Criar Conta
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-lg-5 text-center">
+            <div class="p-4 bg-light rounded-4">
+                <i class="fas fa-brain fa-5x text-primary mb-3"></i>
+                <i class="fas fa-table-tennis fa-4x text-primary opacity-50 position-relative" style="top: -20px;"></i>
+                <p class="text-muted mt-2">
+                    <i class="fas fa-video me-1"></i> Upload de vídeos
+                    <br>
+                    <i class="fas fa-chart-line me-1"></i> Análise com IA
+                    <br>
+                    <i class="fas fa-trophy me-1"></i> Estatísticas automáticas
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <div class="row py-5">
+        <div class="col-md-4 text-center">
+            <div class="p-4">
+                <div class="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-block mb-3">
+                    <i class="fas fa-video fa-3x text-primary"></i>
+                </div>
+                <h3>Upload de Vídeos</h3>
+                <p class="text-muted">Envie vídeos de partidas para análise automática com IA</p>
+            </div>
+        </div>
+        <div class="col-md-4 text-center">
+            <div class="p-4">
+                <div class="bg-success bg-opacity-10 rounded-circle p-3 d-inline-block mb-3">
+                    <i class="fas fa-robot fa-3x text-success"></i>
+                </div>
+                <h3>IA Avançada</h3>
+                <p class="text-muted">Detecção de movimentos, análise de jogadas e métricas de performance</p>
+            </div>
+        </div>
+        <div class="col-md-4 text-center">
+            <div class="p-4">
+                <div class="bg-warning bg-opacity-10 rounded-circle p-3 d-inline-block mb-3">
+                    <i class="fas fa-chart-line fa-3x text-warning"></i>
+                </div>
+                <h3>Estatísticas</h3>
+                <p class="text-muted">Gere relatórios detalhados de atletas e partidas analisadas</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Como funciona -->
+    <div class="row py-4 border-top">
+        <div class="col-12 text-center">
+            <h3 class="mb-4">Como funciona?</h3>
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="p-3">
+                        <span class="badge bg-primary rounded-circle fs-5 p-3 mb-2">1</span>
+                        <h5>Envie o vídeo</h5>
+                        <p class="text-muted small">Upload da partida para análise</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3">
+                        <span class="badge bg-primary rounded-circle fs-5 p-3 mb-2">2</span>
+                        <h5>IA processa</h5>
+                        <p class="text-muted small">Detecção de jogadores, movimentos e pontos</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3">
+                        <span class="badge bg-primary rounded-circle fs-5 p-3 mb-2">3</span>
+                        <h5>Gera estatísticas</h5>
+                        <p class="text-muted small">Métricas de performance e análise</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3">
+                        <span class="badge bg-primary rounded-circle fs-5 p-3 mb-2">4</span>
+                        <h5>Visualize</h5>
+                        <p class="text-muted small">Dashboards com insights e relatórios</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

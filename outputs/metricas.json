@@ -1,0 +1,12 @@
+{
+  "frames_processed": 12127,
+  "video_frames_reported": 12127,
+  "fps": 30.011837768944897,
+  "ball_detection_rate": 0.0,
+  "estimated_rallies": 0,
+  "estimated_rally_time_seconds": 0,
+  "estimated_rebounds": 0,
+  "rebound_timestamps_seconds": [],
+  "avg_ball_speed_px_s": 0.0,
+  "max_ball_speed_px_s": 0.0
+}

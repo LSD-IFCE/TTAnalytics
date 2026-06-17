@@ -1,0 +1,163 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} - TableTennisAnalytics{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-user-plus me-2"></i>
+                        {{ title }}
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.username.id_for_label }}" class="form-label">{{ form.username.label }}</label>
+                                {{ form.username }}
+                                {% if form.username.errors %}<div class="text-danger small mt-1">{{ form.username.errors|join:', ' }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
+                                {{ form.email }}
+                                {% if form.email.errors %}<div class="text-danger small mt-1">{{ form.email.errors|join:', ' }}</div>{% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label for="{{ form.full_name.id_for_label }}" class="form-label">{{ form.full_name.label }}</label>
+                                {{ form.full_name }}
+                                {% if form.full_name.errors %}<div class="text-danger small mt-1">{{ form.full_name.errors|join:', ' }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="{{ form.birth_date.id_for_label }}" class="form-label">{{ form.birth_date.label }}</label>
+                                {{ form.birth_date }}
+                                {% if form.birth_date.errors %}<div class="text-danger small mt-1">{{ form.birth_date.errors|join:', ' }}</div>{% endif %}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.photo.id_for_label }}" class="form-label">{{ form.photo.label }}</label>
+                            <div class="d-flex align-items-center gap-3 mb-2">
+                                <img id="managed-photo-preview" src="https://ui-avatars.com/api/?name=Avatar&background=E9ECEF&color=6C757D&size=72" alt="Pré-visualização da foto" class="rounded-circle border object-fit-cover" style="width: 72px; height: 72px;">
+                                <div class="flex-grow-1">
+                                    {{ form.photo }}
+                                    {% if form.photo.errors %}<div class="text-danger small mt-1">{{ form.photo.errors|join:', ' }}</div>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if show_club_selector %}
+                        <div class="mb-3">
+                            <label for="{{ form.club.id_for_label }}" class="form-label">{{ form.club.label }}</label>
+                            {{ form.club }}
+                            {% if form.club.errors %}<div class="text-danger small mt-1">{{ form.club.errors|join:', ' }}</div>{% endif %}
+                        </div>
+                        {% elif fixed_club %}
+                        <div class="mb-3">
+                            <label class="form-label">Clube</label>
+                            <input type="text" class="form-control" value="{{ fixed_club.name }}" disabled>
+                            <small class="text-muted">O atleta será cadastrado automaticamente neste clube.</small>
+                        </div>
+                        {% endif %}
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.dominant_hand.id_for_label }}" class="form-label">{{ form.dominant_hand.label }}</label>
+                                {{ form.dominant_hand }}
+                                {% if form.dominant_hand.errors %}<div class="text-danger small mt-1">{{ form.dominant_hand.errors|join:', ' }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.player_type.id_for_label }}" class="form-label">{{ form.player_type.label }}</label>
+                                {{ form.player_type }}
+                                {% if form.player_type.errors %}<div class="text-danger small mt-1">{{ form.player_type.errors|join:', ' }}</div>{% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.blade.id_for_label }}" class="form-label">{{ form.blade.label }}</label>
+                                {{ form.blade }}
+                                {% if form.blade.errors %}<div class="text-danger small mt-1">{{ form.blade.errors|join:', ' }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.grip.id_for_label }}" class="form-label">{{ form.grip.label }}</label>
+                                {{ form.grip }}
+                                {% if form.grip.errors %}<div class="text-danger small mt-1">{{ form.grip.errors|join:', ' }}</div>{% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.rubber_1.id_for_label }}" class="form-label">{{ form.rubber_1.label }}</label>
+                                {{ form.rubber_1 }}
+                                {% if form.rubber_1.errors %}<div class="text-danger small mt-1">{{ form.rubber_1.errors|join:', ' }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.rubber_2.id_for_label }}" class="form-label">{{ form.rubber_2.label }}</label>
+                                {{ form.rubber_2 }}
+                                {% if form.rubber_2.errors %}<div class="text-danger small mt-1">{{ form.rubber_2.errors|join:', ' }}</div>{% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.password1.id_for_label }}" class="form-label">{{ form.password1.label }}</label>
+                                {{ form.password1 }}
+                                {% if form.password1.errors %}<div class="text-danger small mt-1">{{ form.password1.errors|join:', ' }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.password2.id_for_label }}" class="form-label">{{ form.password2.label }}</label>
+                                {{ form.password2 }}
+                                {% if form.password2.errors %}<div class="text-danger small mt-1">{{ form.password2.errors|join:', ' }}</div>{% endif %}
+                            </div>
+                        </div>
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                        {% endif %}
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'dashboard' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-1"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i> {{ submit_label }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const managedPhotoInput = document.getElementById('{{ form.photo.id_for_label }}');
+    const managedPhotoPreview = document.getElementById('managed-photo-preview');
+
+    if (managedPhotoInput && managedPhotoPreview) {
+        managedPhotoInput.addEventListener('change', function (event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) {
+                managedPhotoPreview.src = "https://ui-avatars.com/api/?name=Avatar&background=E9ECEF&color=6C757D&size=72";
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (loadEvent) {
+                managedPhotoPreview.src = loadEvent.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+</script>
+{% endblock %}
