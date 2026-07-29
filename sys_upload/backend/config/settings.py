@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-dev-key')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
 
 # Application definition
 INSTALLED_APPS = [
@@ -63,13 +63,22 @@ DATABASES = {
     }
 }
 
-# Database com PostgreSQL (se tiver DATABASE_URL)
+# Database com PostgreSQL via DATABASE_URL ou variáveis DB_*
 if os.getenv('DATABASE_URL'):
     import dj_database_url
     DATABASES['default'] = dj_database_url.config(
         default=os.getenv('DATABASE_URL'),
         conn_max_age=600
     )
+elif os.getenv('DB_NAME'):
+    DATABASES['default'] = {
+        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER', ''),
+        'PASSWORD': os.getenv('DB_PASSWORD', ''),
+        'HOST': os.getenv('DB_HOST', ''),
+        'PORT': os.getenv('DB_PORT', ''),
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
